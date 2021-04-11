@@ -1,0 +1,119 @@
+
+
+
+
+http://192.168.1.132:8082/sayBoot
+
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dserver.port=8082 -jar skywalking_springboot.jar &
+
+指标对比，两个实例，在某个时间段，如果不一致，说明有问题
+性能，也就是时长，是否在一个维度。
+
+
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_dubbo_provider/skywalking-agent.jar -jar skywalking_dubbo_provider.jar &
+
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_dubbo_consumer/skywalking-agent.jar -jar skywalking_dubbo_consumer.jar &
+
+http://192.168.1.132:8085/hello
+
+先右上角的刷新，然后再左边的刷新
+
+CREATE TABLE `t_user` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+
+systemctl start docker
+systemctl stop docker
+systemctl restart docker
+systemctl status docker
+systemctl enable docker
+
+tar -zxvf elasticsearch-6.4.0.tar.gz 
+tar -zxvf apache-skywalking-apm-6.5.0.tar.gz 
+tar -zxvf apache-tomcat-8.5.47.tar.gz 
+
+useradd es
+passwd es
+chown -R es elasticsearch-6.4.0
+curl http://localhost:9200
+
+cd /usr/local/skywalking/apache-skywalking-apm-bin/config
+注释掉h2，开启es
+
+cd /usr/local/skywalking/apache-skywalking-apm-bin/webapp
+修改端口号8081
+
+cd /usr/local/skywalking/apache-skywalking-apm-bin/bin
+
+./oapService.sh
+查看日志无误后，执行
+./webappService.sh
+
+cd /usr/local/skywalking/apache-skywalking-apm-bin/agent/config/
+vi agent.config 
+修改应用名称
+
+vi /usr/local/skywalking/apache-tomcat-8.5.47/bin/catalina.sh
+CATALINA_OPTS="$CATALINA_OPTS -javaagent:/usr/local/skywalking/apacheskywalking-apm-bin/agent/skywalking-agent.jar"; export CATALINA_OPTS
+
+vi /usr/local/skywalking/apache-tomcat-8.5.47/conf
+修改server.xml 端口号8080-》8081
+
+把skywalking_springmvc.war放到/usr/local/skywalking/apache-tomcat-8.5.47/webapps
+tomcat的bin目录执行./start.sh
+
+http://10.43.31.49:8081/skywalking_springmvc/hello/sayHello.do
+整个流程走完后，大概1分钟后，才能在仪表盘上看到效果
+
+启动命令里面指定agent文件
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dserver.port=8082 -jar skywalking_springboot.jar &
+
+http://10.43.31.49:8082/sayBoot
+
+
+
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_mysql/skywalking-agent.jar  -Dserver.port=8087 ?-jar skywalking_mysql.jar &
+
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dserver.port=8087 -jar skywalking_mysql.jar &
+
+-Dskywalking.agent.service_name=skywalking_mysql
+
+测试系统配置
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dserver.port=8082 -Dskywalking.agent.service_name=skywalking_springboottest -jar skywalking_springboot.jar &
+
+key list
+left right取数据
+一条一条获取。取的时候判断空。存的时候不考虑判断空。
+放对象（一开始是json）
+可以配置内存大小redis
+
+插件
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dskywalking.agent.service_name=skywalking_plugins -jar skywalking_plugins.jar &
+
+验证
+http://10.43.31.49:8088/getTraceId 
+
+http://10.43.31.49:8081/skywalking_springmvc/hello/sayHello.do
+
+插件
+cd /usr/local/skywalking/apache-skywalking-apm-bin 
+cd agent
+cp optional-plugins/apm-trace-ignore-plugin-6.5.0.jar plugins/
+
+测试插件
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dskywalking.agent.service_name=skywalking_plugins -Dskywalking.trace.ignore_path=/exclude -jar skywalking_plugins.jar &
+
+验证
+http://10.43.31.49:8088/exclude
+
+http://10.43.31.49:8088/include
+
+webhooks:      
+  - http://127.0.0.1:8089/webhook
+
+告警
+java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dskywalking.agent.service_name=skywalking_alarm -jar skywalking_alarm.jar 
+
+验证
+http://10.43.31.49:8089/timeout 
+
